@@ -1,27 +1,30 @@
-const express = require("express");
-const path = require("path");
-const methodOverride = require("method-override");
+const express = require("express"); // IMPORTING EXPRESS
+const path = require("path"); // IMPORTING PATH
+const methodOverride = require("method-override"); // IMPORTING METHOD OVERRIDING
 
-const app = express();
-const port = 8080;
+const app = express(); // INITIATING THE APP
+const port = 8080; // PORT NUMBER
 
-app.use(methodOverride("_method"));
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
+app.use(methodOverride("_method")); // USING METHOD OVERRIDING 
+app.use(express.urlencoded({ extended: true })); // USING URL ENCODED
+app.use(express.json()); // USING JSON
 
-app.set("view engine", "ejs");
-app.set("views", path.join(__dirname, "views"));
+app.set("view engine", "ejs"); // SETTING VIEW ENGINE
+app.set("views", path.join(__dirname, "views")); // SETTING VIEWS
 
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "public"))); // USING PUBLIC
 
-let nextid = 3
+
+let nextid = 3 // WE HAVE MADE A VARIABLE WHICH WILL HELP TO PROVIDE ID TO THE NEWLY CREATED TASK 
 
 // MAKE A ARRAY OF LIST 
 let tasks = [
+    // INDEX 0
     {
         id: 1,
         title: "Learn Node JS"
     },
+    // INDEX 1
     {
         id: 2,
         title: "Learn Express JS"
@@ -50,8 +53,8 @@ app.get("/tasks/:id/edit", (req, res) => {
 
 // HERE IS THE MAIN UPDATE LOGIC AND WILL UPDATE THE TASK FROM THIS ROUTE
 app.patch("/tasks/:id", (req, res) => {
-    const taskid = parseInt(req.params.id)
-    const task = tasks.find(t => t.id === taskid)
+    const taskid = parseInt(req.params.id) // FIND THE ID 
+    const task = tasks.find(t => t.id === taskid) // ALSO FIND THE OBJECT 
     task.title = req.body.title // UPDATE HERE
     res.redirect('/')
 })
@@ -59,9 +62,9 @@ app.patch("/tasks/:id", (req, res) => {
 
 // DELETE ROUTE 
 app.delete('/tasks/:id', (req, res) => {
-    const id = req.params.id;
-    tasks = tasks.filter(task => task.id != id);
-    res.redirect('/');
+    const id = req.params.id; // FIND THE ID 
+    tasks = tasks.filter(task => task.id != id); // FILTER THE ARRAY REMOVE THE TASK 
+    res.redirect('/'); // UPDATE AND SHOW 
 });
 
 
